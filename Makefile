@@ -4,9 +4,22 @@ CC = gcc
 CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast
 RM := rm -rf
 
+# MLX library
 LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBMLX_DIR := ./lib/MLX42
 LIBMLX := $(LIBMLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+
+# Libft library
+LIBFT_DIR := ./lib/Libft
+LIBFT := $(LIBFT_DIR)/libft.a
+
+# gnl library
+GNL_DIR := lib/get_next_line
+GNL := $(GNL_DIR)/gnl.a
+
+# ft_printf library
+PRINTF_DIR := lib/ft_printf
+PRINTF := $(GNL_DIR)/ft_printf.a
 
 HEADERS := -I include -I $(LIBMLX_DIR)/include
 
@@ -30,7 +43,10 @@ libmlx:
 
 
 $(NAME): $(OBJS)
-	@$(CC) $^ $(LIBMLX) $(HEADERS) -o $@
+	@make -C $(LIBFT_DIR)
+	@make -C $(GNL_DIR)
+	@make -C $(PRINTF_DIR)
+	@$(CC) $^ $(LIBMLX) $(LIBFT) $(PRINTF) $(GNL) -o $@
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(HEADERS) $< -c -o $@ && printf "Compiling: $(notdir $<)"
