@@ -42,7 +42,6 @@ static void	check_for_empty_line(char *map, t_game *game)
 	}
 }
 
-
 /*
 	Based on ft_strjoin in libft, code for releasing the memory has been added.
 
@@ -76,29 +75,49 @@ static char	*ft_strjoin_2(char const *s1, char const *s2)
 	return (newstr);
 }
 
-void	map_init(t_game *game, char *map_file)
+/*
+	The fucntion is reading the content from map_file, then fill it into game ->grid.
+
+	Solution:
+		1. open the map_file;
+		2. read the content line by line, then using ft_strjoin_2 put them into map_str;
+		3. using ft_split put the content in map_str to game ->grid;
+	Note:
+		if after execute this function, the project doesn't failed exit, then it means
+		the game ->grid is not empty.
+*/
+static void	read_map(char *map_file, t_game *game)
 {
+	int		fd;
 	char	*map_str;
 	char	*line;
-	int		fd;
 
+	if (!map_file)
+		error_msg("File pointer is NULL", game);
 	fd = open(map_file)
 	if (fd == -1)
 		error_msg("Couldn't open the map. Please check the map file!", game);
 	map_str = ft_strdup("");
-	game ->map.rows = 0;
+	game ->rows = 0;
 	while (true)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
-		map_str = ft_strjoin_2(map_str, line);
+			error_msg("Failed to get content from the map.", game);
+		if (!(map_str = ft_strjoin_2(map_str, line)))
+			error_msg("Failed to join two strings together.", game);
 		free(line);
-		game ->map.rows++;
+		game ->rows++;
 	}
 	clsoe(fd);
 	check_for_empty_line(map_str, game);
-	game ->map.grid = ft_split(map_str, '\n');
-	game ->map_alloc = true;
+	game ->grid = ft_split(map_str, '\n');
 	free(map_str);
+}
+
+void	map_init(t_game *game, char *map_file)
+{
+	read_map(map_file, game);
+	map_check(game);
+	????
 }
