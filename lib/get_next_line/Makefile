@@ -1,4 +1,4 @@
-NAME = gnl
+NAME = gnl.a
 AR     = ar rc
 RM     = rm -f
 CC     = cc
