@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 14:22:19 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/19 12:39:54 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/22 13:07:51 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@
 # include "../lib/libft/libft.h"
 # include "../lib/get_next_line/get_next_line.h"
 
-// window title
+// game title
 # define TITLE		"so long"
+# define CELL_SIZE	(16)
 
 // characters used in the map
 # define CHARACTERS	"10CPE"
+# define WALL			'1'
+# define COLLECTIBLE	'C'
+# define F_SPACE		'0'
+# define PLAYER			'P'
+# define MAP_EXIT		'E'
 
 // the output text colors
 # define GREEN		"\033[0;32m"
@@ -62,34 +68,40 @@ typedef struct s_image
 	scale: the image size.
 	move: the steps of player.
 	cur_posn: the player current position.
-	next: the next position where player will move to.
+	next_posn: the next position where player will move to.
 */
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	t_image		image;
-	char		**grid;
-	uint32_t	rows;
-	uint32_t	cols;
+	char		**grid;	// init in read_map
+	uint32_t	rows;	// init in read_map
+	uint32_t	cols;	// init in map_check
 	uint32_t	wd_width;
 	uint32_t	wd_height;
 	uint32_t	scale;
 	uint32_t	move;
-	uint32_t	collect_all;
-	uint32_t	collect_get;
-	uint32_t	player_n;
-	uint32_t	exit_n;
-	t_postion	exit;
-	t_postion	start;
-	t_postion	cur;
-	t_postion	next;
+	uint32_t	collect_all;	// init in map_chars_init
+	uint32_t	collect_get;	// init in map_chars_init
+	uint32_t	player_n;	// init in map_chars_init
+	uint32_t	exit_n;	// init in map_chars_init
+	t_postion	exit_posn;	// init in map_chars_init
+	t_postion	start;	// init in map_chars_init
+	t_postion	cur_posn;	// init in map_init
+	t_postion	next_posn;
 }	t_game;
 
-// errors_checking.c
+// param_check.c
 void	param_check(int ac, char **av, t_game *game);
 
 // map_init.c
 void	map_init(t_game *game, char *map_file);
+
+// map_check.c
+void	map_check(t_game *game);
+
+// game_init.c
+void	game_init(t_game *game);
 
 // utils.c
 void	error_msg(char *message, t_game *game);

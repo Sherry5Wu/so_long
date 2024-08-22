@@ -19,15 +19,14 @@ GNL := $(GNL_DIR)/gnl.a
 
 # ft_printf library
 PRINTF_DIR := lib/ft_printf
-PRINTF := $(PRINTF_DIR)/lft_printf.a
+PRINTF := $(PRINTF_DIR)/libftprintf.a
 
 HEADERS := -I include -I $(LIBMLX_DIR)/include
 
 SRCS_DIR = ./srcs
-SRCS_O = colors.c
+SRCS_O = test.c
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_O))
 OBJS = $(SRCS:.c=.o)
-
 
 
 all: clone $(NAME)

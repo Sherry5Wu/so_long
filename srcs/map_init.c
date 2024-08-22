@@ -94,7 +94,7 @@ static void	read_map(char *map_file, t_game *game)
 
 	if (!map_file)
 		error_msg("File pointer is NULL", game);
-	fd = open(map_file)
+	fd = open(map_file);
 	if (fd == -1)
 		error_msg("Couldn't open the map. Please check the map file!", game);
 	map_str = ft_strdup("");
@@ -114,10 +114,50 @@ static void	read_map(char *map_file, t_game *game)
 	game ->grid = ft_split(map_str, '\n');
 	free(map_str);
 }
+/*
+	Initialize for game ->collect_all, game ->player_n, game ->exit_n,
+	game ->start, game ->exit.
+*/
+static void	map_chars_init(t_game *game)
+{
+	int	x;
+	int	y;
 
+	y = -1;
+	while (++y < game ->rows)
+	{
+		x = -1;
+		while (++x < game ->cols)
+		{
+			if (!ft_strchr(CHARACTERS, game ->grid[y][x]))
+				error_msg("Invalid map. There is an invalid character.", game);
+			else if (game ->grid[y][x] == COLLECTIBLE)
+				game ->collect_all++;
+			else if (game ->grid[y][x] == PLAYER)
+			{
+				game ->player_n++;
+				game ->start = (t_postion){x, y};
+			}
+			else if (game ->grid[y][x] == MAP_EXIT)
+			{
+				game ->exit_n++;
+				game ->exit_posn = (t_postion){x, y};
+			}
+		}
+	}
+}
+
+/*
+	The function will do these things:
+	1. use read_map function to read the map_file, then fill the content
+	   into game ->grind.
+	2. check the map.
+
+*/
 void	map_init(t_game *game, char *map_file)
 {
 	read_map(map_file, game);
+	map_chars_init(game);
 	map_check(game);
-	????
+	game ->cur_posn = (t_postion){game ->start.x, game ->start.y};
 }

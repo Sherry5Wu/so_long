@@ -1,99 +1,90 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_check.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 07:34:04 by jingwu            #+#    #+#             */
+/*   Updated: 2024/08/22 07:34:04 by jingwu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-static void	map_rows_check(t_game *game)
+static void	map_chars_check(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < game ->map.columns)
-	{
-		if (game ->map.grid[0][i] != WALL)
-			error_msg("Invalide Map. There's a wall missing in the first row!
-				The map must be surroued by walls!", game);
-		else if (game ->map.grid[game ->map.rows - 1][i] != WALL)
-			error_msg("Invalide Map. There's a wall missing in the last row!
-				The map must be surroued by walls!", game);
-		i++;
-	}
-}
-
-static void	map_coloumns_check(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < game ->map.rows)
-	{
-		if (game ->map.grid[i][0] != WALL)
-			error_msg("Invalide Map. There's a wall missing in the first coloumn!
-				The map must be surroued by walls!", game);
-		else if (game ->map.grid[i][game ->map.columns - 1] != WALL)
-			error_msg("Invalide Map. There's a wall missing in the last coloumn!
-				The map must be surroued by walls!", game);
-		i++;
-	}
-}
-
-static void	count_map_chars(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < game ->map.rows)
-	{
-		j = 0;
-		while (j < game ->map.columns)
-		{
-			if (!ft_strchr(CHARACTERS, game ->map.grid[i][j]))
-				error_msg("Invalid map. There is an invalid character
-					in the map", game);
-			else if (game ->map.grid[i][j] == COLLECTIBLE)
-				game ->map.collectible++;
-			else if (game ->map.grid[i][j] == PLAYER)
-			{
-				game ->map.players++;
-				game ->map.player_posn.x = j;
-				game ->map.player_posn.y = i;
-			}
-			else if (game ->map.grid[i][j] == MAP_EXIT)
-				game ->map.exit++;
-		}
-	}
-}
-
-static void	verify_map_chars(t_game *game)
-{
-	if (game ->map.exit != 1)
-		error_msg("Invalid map. The map should contain 1 and only 1
-			exit.", game);
-	else if (game ->map.players != 1)
-		error_msg("Invalid map. The map should contain 1 and only 1
-			player.", game);
-	else if (game ->map.collectible == 0)
-		error_msg("Invalid map. The map should contain at least 1
-			collectible.", game);
+	if (game ->exit_n != 1)
+		error_msg("Invalid map. The map should contain 1 and only 1 exit.", game);
+	else if (game ->player_n != 1)
+		error_msg("Invalid map. The map should contain 1 and only 1 player.", game);
+	else if (game ->collect_all == 0)
+		error_msg("Invalid map. The map should contain at least 1 collectible.", game);
 }
 
 static void	map_wall_check(t_game *game)
 {
-	
+	int	i;
+
+	i = 0;
+	while (i < game ->cols)
+	{
+		if (game ->grid[0][i] != WALL || game ->grid[game ->rows - 1][i] != WALL)
+			error_msg("Invalide Map. There's a wall missing in the first or last
+				 row! The map must be surroued by walls!", game);
+		i++;
+	}
+	i = 0;
+	while (i < game ->rows)
+	{
+		if (game ->grid[i][0] != WALL || game ->grid[i][game ->cols - 1] != WALL)
+			error_msg("Invalide Map. There's a wall missing in the first or last
+				coloumn! The map must be surroued by walls!", game);
+		i++;
+	}
 }
 
 static void	map_shape_check(t_game *game)
 {
 	int	i;
-	int	len;
 
-	len = ft_strlen(game ->grid[0]);
-	i = 1;
+	i = 0;
 	while (i < game ->rows)
 	{
-		if (ft_strlen(game ->grid[i]) != len)
+		if (ft_strlen(game ->grid[i]) != game ->cols)
 			error_msg("Invalid map. The map isn't rectange!", game);
 	}
+}
+/*
+	The function will:
+		1. start from "start" coordinate, as player's start position, then it will
+		   go through all the non-wall position, as the same time, it will count the
+		   times of P, C and E.
+		2. After getting the count of P, C and E. It will check will origianl count.
+			- if exit != 1 || collect != game ->collect_all, then
+			  there is NO valid path in the map;
+			- otherwise, there is a valid path in the map(can collect all the collectibles
+			  and get out from exit).
+*/
+static void	map_path_check(t_game *game, t_postion curt)
+{
+	static int	collect;
+	static int	exit;
+
+	if (game ->grid[curt.y][curt.x] == WALL)
+		return ;
+	else if (game ->grid[curt.y][curt.x] == COLLECTIBLE)
+		collect++;
+	else if (game ->grid[curt.y][curt.x] == MAP_EXIT)
+		exit++;
+	map_path_check(game, (t_postion){curt.x + 1, curt.y});
+	map_path_check(game, (t_postion){curt.x - 1, curt.y});
+	map_path_check(game, (t_postion){curt.x, curt.y + 1});
+	map_path_check(game, (t_postion){curt.x, curt.y - 1});
+	if (collect != game ->collect_all)
+		error_msg("Couldn't find a path to collect all the collectibles.", game);
+	else if (exit != 1)
+		error_msg("Couldn't find a path to the exit.", game);
 }
 
 void	map_check(t_game *game)
@@ -104,6 +95,6 @@ void	map_check(t_game *game)
 			than 120.", game);
 	map_shape_check(game);
 	map_wall_check(game);
-	map_characters_check(game);
-	map_path_check(game);
+	map_chars_check(game);
+	map_path_check(game, game ->start);
 }

@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 14:02:31 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/19 13:22:46 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/22 10:34:32 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	main(int ac, char **av)
 	game = malloc(sizeof(t_game));
 	param_check(ac, av, game); // if ac != 2, then print out error message.
 	map_init(game, av[1]); // the function will verify the map first, then initialize the map.
+	game_init(game);
+
+
 	game_vars_init(game);
-	map_check(game);
 	game_res_init(game);
 
-
-
+	exit(0);
 }
