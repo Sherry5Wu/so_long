@@ -52,14 +52,15 @@ typedef struct s_position
 */
 typedef struct s_image
 {
-	uint32_t		width;
-	uint32_t		heigh;
+	uint32_t		width; //init in image_scale_check()
+	uint32_t		height; //init in image_scale_check()
 	mlx_image_t		*empty;
 	mlx_image_t		*wall;
 	mlx_image_t		*collectible;
 	mlx_image_t		*exit_open;
 	mlx_image_t		*exit_close;
 	mlx_image_t		*player;
+	mlx_image_t		*start;
 }	t_image;
 
 /*
@@ -72,14 +73,14 @@ typedef struct s_image
 */
 typedef struct s_game
 {
-	mlx_t		*mlx;
+	mlx_t		*mlx; // init in window_init()
 	t_image		image;
 	char		**grid;	// init in read_map
 	uint32_t	rows;	// init in read_map
 	uint32_t	cols;	// init in map_check
-	uint32_t	wd_width;
-	uint32_t	wd_height;
-	uint32_t	scale;
+	uint32_t	wd_width; // init in window_init()
+	uint32_t	wd_height; // init in window_init()
+	uint32_t	scale; //init in image_scale_check()
 	uint32_t	move;
 	uint32_t	collect_all;	// init in map_chars_init
 	uint32_t	collect_get;	// init in map_chars_init
@@ -102,6 +103,9 @@ void	map_check(t_game *game);
 
 // game_init.c
 void	game_init(t_game *game);
+
+// draw_map_to_game.c
+void	draw_map_to_game(t_game *game);
 
 // utils.c
 void	error_msg(char *message, t_game *game);

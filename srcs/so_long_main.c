@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 	param_check(ac, av, game); // if ac != 2, then print out error message.
 	map_init(game, av[1]); // the function will verify the map first, then initialize the map.
 	game_init(game);
-
+	draw_map_to_game(game);
 
 	game_vars_init(game);
 	game_res_init(game);
