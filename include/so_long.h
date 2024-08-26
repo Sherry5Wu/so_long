@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 14:22:19 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/22 13:07:51 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/26 14:49:14 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,20 @@
 
 // game title
 # define TITLE		"so long"
-# define CELL_SIZE	(16)
+# define CELL_SIZE	(32)
 
-// characters used in the map
+/*
+	Characters used in the map.
+	10CPE: are getting from document.
+	O: is added by developer to indicate the exit is open.
+*/
 # define CHARACTERS	"10CPE"
 # define WALL			'1'
 # define COLLECTIBLE	'C'
 # define F_SPACE		'0'
 # define PLAYER			'P'
 # define MAP_EXIT		'E'
+# define EXIT_OPEN		'O'
 
 // the output text colors
 # define GREEN		"\033[0;32m"
@@ -80,7 +85,7 @@ typedef struct s_game
 	uint32_t	cols;	// init in map_check
 	uint32_t	wd_width; // init in window_init()
 	uint32_t	wd_height; // init in window_init()
-	uint32_t	scale; //init in image_scale_check()
+	uint32_t	tile; //init in image_scale_check()
 	uint32_t	move;
 	uint32_t	collect_all;	// init in map_chars_init
 	uint32_t	collect_get;	// init in map_chars_init
@@ -92,7 +97,7 @@ typedef struct s_game
 	t_postion	next_posn;
 }	t_game;
 
-// param_check.c
+// so_long.c
 void	param_check(int ac, char **av, t_game *game);
 
 // map_init.c
@@ -107,8 +112,19 @@ void	game_init(t_game *game);
 // draw_map_to_game.c
 void	draw_map_to_game(t_game *game);
 
+// hook.c
+void	keyhook_wsad(mlx_key_data_t keydata, void *param);
+void	keyhook_arrowkeys(mlx_key_data_t keydata, void *param);
+void	close_hook(void *param);
+
+// move_player.c
+void	move_player(t_game *game);
+
 // utils.c
 void	error_msg(char *message, t_game *game);
-void	free_map(t_game *game);
+void	free_game(t_game *game);
+void	free_image(t_game *game);
+void	free_matrix(char **matrix, int row);
+void	quit_game(t_game *game);
 
 #endif
