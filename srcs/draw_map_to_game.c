@@ -32,15 +32,19 @@ static void	draw_img(t_game *game, t_postion posn)
 
 void	draw_map_to_game(t_game *game)
 {
-	int32_t	x;
-	int32_t	y;
+	uint32_t	x;
+	uint32_t	y;
 
-	y = -1;
-	while (++y < game ->rows)
+	y = 0;
+	while (y < game ->rows)
 	{
-		x = -1;
-		while (++x < game ->cols)
+		x = 0;
+		while (x < game ->cols)
+		{
 			draw_img(game, (t_postion){x, y});
+			x++;
+		}
+		y++;
 	}
 	add_image(game, game ->image.player, game ->cur_posn);
 }

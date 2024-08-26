@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 07:48:03 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/26 09:32:51 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/26 15:00:31 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,5 @@ void	close_hook(void *param)
 	t_game *game;
 
 	game = (t_game *)param;
-
+	??????
 }

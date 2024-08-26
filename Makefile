@@ -24,7 +24,8 @@ PRINTF := $(PRINTF_DIR)/libftprintf.a
 HEADERS := -I include -I $(LIBMLX_DIR)/include
 
 SRCS_DIR = ./srcs
-SRCS_O = test.c
+SRCS_O = draw_map_to_game.c game_init.c hook.c map_check.c map_init.c \
+	move_player.c so_long.c utils.c
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_O))
 OBJS = $(SRCS:.c=.o)
 
