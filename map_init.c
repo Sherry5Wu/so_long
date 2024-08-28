@@ -156,11 +156,14 @@ void	map_init(t_game *game, char *map_file)
 
 	strs = read_map(map_file, game);
 	if (game ->rows == 0)
+	{
+		free(strs);
 		error_msg("The map is empty!", game);
+	}
 	check_for_empty_line(strs, game);
 	game ->grid = ft_split(strs, '\n');
 	game ->cols = ft_strlen(game ->grid[0]);
-	map_chars_init(game);
+	map_chars_init(game); /// need to free strs here before get out
 	map_check(game, strs);
 	game ->cur_posn = (t_postion){game ->start.x, game ->start.y};
 }

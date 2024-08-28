@@ -18,7 +18,6 @@ void	error_msg(char *message, t_game *game)
 	ft_printf(RED"Error\n"GREY"%s\n"RESET, message);
 	exit(EXIT_FAILURE);
 }
-
 void	free_game(t_game *game)
 {
 	if (!game)

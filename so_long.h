@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 14:22:19 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/28 10:52:14 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/28 12:50:17 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	move_player(t_game *game);
 
 // utils.c
 void	error_msg(char *message, t_game *game);
+void	quit_game(t_game *game);
 void	free_game(t_game *game);
 void	free_image(t_game *game);
 void	free_matrix(char **matrix, int row);
-void	quit_game(t_game *game);
 
 #endif
