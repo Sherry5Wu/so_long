@@ -16,7 +16,7 @@ static void	add_image(t_game *game, mlx_image_t *img, t_postion posn)
 {
 	if (mlx_image_to_window(game ->mlx, img, posn.x * game ->tile,
 			posn.y * game ->tile) == -1)
-		error_msg("Error generated when add image to the game.", game);
+		error_msg("Error generated when add image to the game.", game, NULL);
 }
 
 static void	draw_img(t_game *game, t_postion posn)
