@@ -20,10 +20,8 @@ LIBFT_A := $(LIB_DIR)/libft.a
 HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
 
 # mandatory srcs
-#SRCS_DIR = ./srcs
 SRCS = draw_map_to_game.c game_init.c hook.c map_check.c map_init.c \
 	move_player.c so_long.c utils.c
-#SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_O))
 OBJS = $(SRCS:.c=.o)
 
 

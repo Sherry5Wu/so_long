@@ -13,31 +13,6 @@
 #include "so_long.h"
 
 /*
-	The function is checking if there is any empty lines in the map：
-	Beginnning, end and in the middle.
-*/
-static void	check_for_empty_line(char *map, t_game *game)
-{
-	int	i;
-
-	i = 0;
-	if (map[0] == '\n')
-	{
-		free(map);
-		error_msg("There is an empty line right at the beginning.", game);
-	}
-	while (map[i + 1])
-	{
-		if (map[i] == '\n' && map[i + 1] == '\n')
-		{
-			free(map);
-			error_msg("There is an empty line in the middle.", game);
-		}
-		i++;
-	}
-}
-
-/*
 	Based on ft_strjoin in libft, code for releasing the memory has been added.
 
 	Description:
@@ -82,17 +57,17 @@ static char	*ft_strjoin_sl(char *s1, char *s2)
 		I can't manage it within 25 lines due to the norminette rules. So I move the split
 		part into map_init().
 */
-static char	*read_map(char *map_file, t_game *game)
+static void	read_map(char *map_file, t_game *game)
 {
 	int		fd;
 	char	*map_str;
 	char	*line;
 
 	if (!map_file)
-		error_msg("File pointer is NULL", game);
+		error_msg("File pointer is NULL", game, NULL);
 	fd = open(map_file, O_RDONLY);
 	if (fd == -1)
-		error_msg("Couldn't open the map. Please check the map file!", game);
+		error_msg("Couldn't open the map. Please check the map file!", game, NULL);
 	map_str = ft_strdup("");
 	game ->rows = 0;
 	while (true)
@@ -102,18 +77,15 @@ static char	*read_map(char *map_file, t_game *game)
 			break ;
 		map_str = ft_strjoin_sl(map_str, line);
 		if (!map_str)
-			error_msg("Failed to join two strings together.", game);
+			error_msg("Failed to join two strings together.", game, map_str);
 		free(line);
 		game ->rows++;
 	}
 	close(fd);
-	return (map_str);
+	game ->grid = ft_split(map_str, '\n');
+	free(map_str);
 }
 
-/*
-	Initialize for game ->collect_all, game ->player_n, game ->exit_n,
-	game ->start, game ->exit.
-*/
 static void	map_chars_init(t_game *game)
 {
 	int	x;
@@ -126,7 +98,7 @@ static void	map_chars_init(t_game *game)
 		while ((uint32_t)(++x) < ft_strlen(game ->grid[y]))
 		{
 			if (!ft_strchr(CHARACTERS, game ->grid[y][x]))
-				error_msg("Invalid map. There is an invalid character.", game);
+				error_msg("Invalid map. There is an invalid character.", game, NULL);
 			else if (game ->grid[y][x] == COLLECTIBLE)
 				game ->collect_all++;
 			else if (game ->grid[y][x] == PLAYER)
@@ -152,18 +124,15 @@ static void	map_chars_init(t_game *game)
 */
 void	map_init(t_game *game, char *map_file)
 {
-	char	*strs;
 
-	strs = read_map(map_file, game);
+	read_map(map_file, game);
 	if (game ->rows == 0)
-	{
-		free(strs);
-		error_msg("The map is empty!", game);
-	}
-	check_for_empty_line(strs, game);
-	game ->grid = ft_split(strs, '\n');
+		error_msg("The map is empty!", game, NULL);
 	game ->cols = ft_strlen(game ->grid[0]);
-	map_chars_init(game); /// need to free strs here before get out
-	map_check(game, strs);
+	map_chars_init(game);
+	map_shape_check(game);
+	map_wall_check(game);
+	map_chars_check(game);
+	map_path_check(game);
 	game ->cur_posn = (t_postion){game ->start.x, game ->start.y};
 }

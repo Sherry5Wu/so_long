@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 14:22:19 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/28 12:50:17 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/29 09:23:12 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ void	param_check(int ac, char **av, t_game *game);
 void	map_init(t_game *game, char *map_file);
 
 // map_check.c
-void	map_check(t_game *game, char *strs);
+void	map_chars_check(t_game *game);
+void	map_wall_check(t_game *game);
+void	map_shape_check(t_game *game);
+void	map_path_check(t_game *game);
 
 // game_init.c
 void	game_init(t_game *game);
@@ -130,7 +133,7 @@ void	close_hook(void *param);
 void	move_player(t_game *game);
 
 // utils.c
-void	error_msg(char *message, t_game *game);
+void	error_msg(char *message, t_game *game, char *str);
 void	quit_game(t_game *game);
 void	free_game(t_game *game);
 void	free_image(t_game *game);

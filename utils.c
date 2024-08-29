@@ -12,8 +12,10 @@
 
 #include "so_long.h"
 
-void	error_msg(char *message, t_game *game)
+void	error_msg(char *message, t_game *game, char *str)
 {
+	if (!str)
+		free(str);
 	free_game(game);
 	ft_printf(RED"Error\n"GREY"%s\n"RESET, message);
 	exit(EXIT_FAILURE);
