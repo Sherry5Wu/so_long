@@ -25,7 +25,10 @@ static void	draw_img(t_game *game, t_postion posn)
 
 	c = game ->grid[posn.y][posn.x];
 	if (c == WALL)
+	{
+		add_image(game, game ->image.empty, posn);
 		add_image(game, game ->image.wall, posn);
+	}
 	else if (c == F_SPACE)
 		add_image(game, game ->image.empty, posn);
 	else if (c == COLLECTIBLE)

@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:09:55 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/28 10:30:56 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/29 12:45:09 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	collect(t_game *game)
 	i = 0;
 	game ->collect_get++;
 	game ->grid[game ->cur_posn.y][game ->cur_posn.x] = F_SPACE;
-	ft_printf(CYAN"Found one! Carrots: %u/%u\n"RESET,
+	ft_printf(CYAN"Found one! Coins: %u/%u\n"RESET,
 		game ->collect_get, game ->collect_all);
 	while (i < game ->image.collectible ->count)
 	{
@@ -64,7 +64,7 @@ static void	collect(t_game *game)
 	{
 		game ->image.exit_close->instances[0].enabled = false;
 		game ->grid[game ->exit_posn.y][game ->exit_posn.x] = EXIT_OPEN;
-		ft_printf(GREEN_B"YEAH! ALL carrots are collected!\n"RESET);
+		ft_printf(GREEN_B"YEAH! ALL coins are collected!\n"RESET);
 	}
 }
 
@@ -94,8 +94,8 @@ void	move_player(t_game *game)
 		collect(game);
 	else if (c == MAP_EXIT)
 	{
-		ft_printf(RED"Need collect all the carrots before leave!\n"RESET);
-		ft_printf(CYAN"Carrots: %u/%u\n"RESET,
+		ft_printf(RED"Need collect all the coins before leave!\n"RESET);
+		ft_printf(CYAN"Coins: %u/%u\n"RESET,
 			game ->collect_get, game ->collect_all);
 	}
 	else if (c == EXIT_OPEN)
