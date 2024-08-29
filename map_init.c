@@ -12,39 +12,24 @@
 
 #include "so_long.h"
 
-/*
-	Based on ft_strjoin in libft, code for releasing the memory has been added.
-
-	Description:
-	Allocates (with malloc(3)) and returns a new string, which is the
-	result of the concatenation of ’s1’ and ’s2’.
-
-	Parameters:
-	s1:  The prefix string.
-	s2:  The suffix string.
-
-	Return value:
-	The new string.NULL if the allocation fails.
-*/
-static char	*ft_strjoin_sl(char *s1, char *s2)
+static void	init_game_rows(char *map_file, t_game *game)
 {
-	char	*newstr;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*line;
+	int		fd;
 
-	if (!s1 && !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	newstr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!newstr)
-		return (NULL);
-	ft_strlcpy(newstr, s1, (s1_len + 1));
-	ft_strlcat(newstr, s2, (s1_len + s2_len + 1));
-	free(s1);
-	return (newstr);
+	fd = open(map_file, O_RDONLY);
+	if (fd == -1)
+		error_msg("Couldn't open the map file!", game, NULL);
+	while (true)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break;
+		game ->rows++;
+		free(line);
+	}
+	close(fd);
 }
-
 /*
 	The fucntion is reading the content from map_file, then fill it into game ->grid.
 
@@ -59,31 +44,30 @@ static char	*ft_strjoin_sl(char *s1, char *s2)
 */
 static void	read_map(char *map_file, t_game *game)
 {
-	int		fd;
-	char	*map_str;
-	char	*line;
+	int			fd;
+	uint32_t	y;
+	char		*line;
 
-	if (!map_file)
-		error_msg("File pointer is NULL", game, NULL);
+	init_game_rows(map_file, game);
+	game ->grid = malloc(sizeof(char *) * (game ->rows + 1));
+	if (!game ->grid)
+		error_msg("Failed to create map grid!", game , NULL);
 	fd = open(map_file, O_RDONLY);
 	if (fd == -1)
-		error_msg("Couldn't open the map. Please check the map file!", game, NULL);
-	map_str = ft_strdup("");
-	game ->rows = 0;
-	while (true)
+		error_msg("Couldn't open the map file!", game, NULL);
+	y = 0;
+	while (y < game ->rows)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break ;
-		map_str = ft_strjoin_sl(map_str, line);
-		if (!map_str)
-			error_msg("Failed to join two strings together.", game, map_str);
+			error_msg("Failed to read the row.", game, NULL);
+		game ->grid[y] = ft_strtrim(line, "\n");
+		if (!game ->grid[y])
+			error_msg("Failed to creat new row.", game, line);
 		free(line);
-		game ->rows++;
+		y++;
 	}
 	close(fd);
-	game ->grid = ft_split(map_str, '\n');
-	free(map_str);
 }
 
 static void	map_chars_init(t_game *game)

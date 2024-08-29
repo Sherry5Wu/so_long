@@ -125,6 +125,9 @@ void	map_path_check(t_game *game)
 		i++;
 	}
 	if (!find_path(game, game ->start, matx))
+	{
+		free_matrix(matx, i);
 		error_msg("There is no path in the map.", game, NULL);
+	}
 	free_matrix(matx, i);
 }

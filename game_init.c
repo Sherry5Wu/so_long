@@ -6,7 +6,7 @@
 /*   By: jingwu <jingwu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:14:43 by jingwu            #+#    #+#             */
-/*   Updated: 2024/08/28 10:24:16 by jingwu           ###   ########.fr       */
+/*   Updated: 2024/08/29 09:36:18 by jingwu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	window_init(t_game *game)
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	game ->mlx = mlx_init(game ->wd_width, game ->wd_height, TITLE, true);
 	if (!game ->mlx)
-		error_msg("Error generated when trying to initialize the graph.", game);
+		error_msg("Error generated when trying to initialize the graph.", game, NULL);
 }
 
 /*
@@ -72,13 +72,13 @@ static mlx_image_t	*image_load(t_game *game, char *path)
 
 	texture = mlx_load_png(path);
 	if (!texture)
-		error_msg("Error generated when trying to load a image.", game);
+		error_msg("Error generated when trying to load a image.", game, NULL);
 	image = mlx_texture_to_image(game ->mlx, texture);
 	mlx_delete_texture(texture);
 	if (!image)
-		error_msg("Error generated when convert texture to image.", game);
+		error_msg("Error generated when convert texture to image.", game, NULL);
 	if (!mlx_resize_image(image, game ->tile, game ->tile))
-		error_msg("Error geerated when resizing a image.", game);
+		error_msg("Error geerated when resizing a image.", game, NULL);
 	return (image);
 }
 

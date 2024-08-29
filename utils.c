@@ -51,7 +51,7 @@ void	free_image(t_game *game)
 
 void	free_matrix(char **matrix, int row)
 {
-	if (!matrix || !*matrix)
+	if (!matrix)
 		return ;
 	while (--row >= 0)
 		free (matrix[row]);
