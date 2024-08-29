@@ -91,7 +91,6 @@ static void	image_init(t_game *game)
 	game ->image.exit_open = image_load(game, "texture/exit_open.png");
 	game ->image.player = image_load(game, "texture/player.png");
 	game ->image.wall = image_load(game, "texture/wall.png");
-	game ->image.start = image_load(game, "texture/start.png");
 }
 
 void	game_init(t_game *game)
