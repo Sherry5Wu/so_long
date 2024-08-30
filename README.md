@@ -30,7 +30,7 @@ This project is a small 2D game with MLX42. You'll learn about textures, sprites
 
 # Demo
 
-
+[so_long_demo.webm](https://github.com/user-attachments/assets/2c23d714-d1cd-42a1-9039-07d9caea52fb)
 
 # Flowchart
 
