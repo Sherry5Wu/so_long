@@ -113,6 +113,8 @@ void	map_init(t_game *game, char *map_file)
 	if (game ->rows == 0)
 		error_msg("The map is empty!", game, NULL);
 	game ->cols = ft_strlen(game ->grid[0]);
+	if (game ->rows > 100 || game ->cols > 100)
+		error_msg("The map is too big.", game, NULL);
 	map_chars_init(game);
 	map_shape_check(game);
 	map_wall_check(game);
