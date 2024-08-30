@@ -6,17 +6,17 @@ This project is a small 2D game with MLX42. You'll learn about textures, sprites
 
 1. git clone the project to your local:
 
-    git clone https://github.com/Sherry5Wu/so_long.git so_long
+       git clone https://github.com/Sherry5Wu/so_long.git so_long
    
     (if the command doesn't work, then you download the project manuanlly using "Download Zip")
    
 3. get into so_long folder:
 
-     cd so_long
+       cd so_long
 
 4. generate the executable file:
 
-     make
+       make
 
 5. start the game using different map:
 
