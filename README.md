@@ -20,13 +20,17 @@ This project is a small 2D game with MLX42. You'll learn about textures, sprites
 
 5. start the game using different map:
 
-     ./so_long maps/valid/medium_valid.ber
+       ./so_long maps/valid/medium_valid.ber
 
 6. after the game window is set up, you can control the player to collect all the coins, then the player is able
 
    to get out from coin-box. The keys W, S, A, D or up arrow, down arrow, left arrow, right arrow can control the
    
    player moves.
+
+# Demo
+
+
 
 # Flowchart
 
