@@ -36,6 +36,12 @@ This project is a small 2D game with MLX42. You'll learn about textures, sprites
 
 ![so_long_flowchart](https://github.com/user-attachments/assets/c9891794-f91a-4ff5-a4c5-cfb3ed25f84d)
 
+# Note
+
+ 1. Why set the row and cols'limit to 100?
+
+    Because if the row or cols over than 100, then the map is too small. No fun to play it.
+
 # Resources
 
 https://reactive.so/post/42-a-comprehensive-guide-to-so_long
